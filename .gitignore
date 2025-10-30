@@ -1,0 +1,45 @@
+# Données sensibles
+.env
+*.env
+!.env.example
+
+# Données persistantes
+data/
+*.json
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.bak
+
+# Logs
+logs/
+*.log
+
+# Archives
+*.tar.gz
+*.zip

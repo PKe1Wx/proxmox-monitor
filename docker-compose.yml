@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  proxmox-monitor:
+    build: .
+    container_name: proxmox-monitor
+    restart: unless-stopped
+    
+    environment:
+      # Configuration Proxmox
+      PROXMOX_HOST: "https://proxmox.local:8006"
+      PROXMOX_USER: "root@pam"
+      PROXMOX_PASSWORD: "votre_mot_de_passe"
+      
+      # OU utiliser un token API (recommandé)
+      # PROXMOX_TOKEN_ID: "user@realm!tokenid"
+      # PROXMOX_TOKEN_SECRET: "votre-token-secret"
+      
+      # Configuration des notifications
+      # Discord (pré-configuré)
+      NOTIFICATION_TYPE: "discord"
+      NOTIFICATION_URL: "https://discord.com/api/webhooks/1433028525279150203/HohwbkhS3BQ_z5CQtRtX5UlqzblkXBHaq8530Ao_bIpdNy8a4dMLhhnUybID7wUAgzrr"
+      NOTIFICATION_TOKEN: ""  # Pas besoin pour Discord
+      
+      # Option 2: Gotify
+      # NOTIFICATION_TYPE: "gotify"
+      # NOTIFICATION_URL: "http://gotify.local"
+      # NOTIFICATION_TOKEN: "votre_token_gotify"
+      
+      # Option 3: ntfy
+      # NOTIFICATION_TYPE: "ntfy"
+      # NOTIFICATION_URL: "https://ntfy.sh/votre_topic"
+      # NOTIFICATION_TOKEN: ""  # Optionnel pour ntfy
+      
+      # Option 4: Webhook personnalisé
+      # NOTIFICATION_TYPE: "webhook"
+      # NOTIFICATION_URL: "http://votre-webhook.local/endpoint"
+      
+      # Paramètres de monitoring
+      CHECK_INTERVAL: "60"  # Vérification toutes les 60 secondes
+      DAILY_REPORT_TIME: "09:00"  # Heure du rapport quotidien (format HH:MM)
+      UPDATE_NOTES: "true"  # Mettre à jour les notes des VM/LXC avec l'IP (true/false)
+      
+      # Timezone
+      TZ: "Europe/Paris"
+    
+    volumes:
+      # Persistance des données
+      - ./data:/data
+    
+    # Réseau (si besoin d'accéder à Proxmox via le réseau host)
+    # network_mode: host
+    
+    # Limites de ressources (optionnel, adapté pour Raspberry Pi)
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
